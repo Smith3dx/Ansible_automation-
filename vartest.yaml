@@ -1,0 +1,17 @@
+--- # Variable test from the var section of a playbook 
+- hosts: '{{ testhosts }}'
+  remote_user: ansible 
+  become: yes 
+  become_method: sudo 
+  connection: ssh
+  gather_facts: '{{ gather }}'
+  vars:
+      testhosts: Servers 
+      gather: yes 
+      pkg: elinks 
+  tasks:
+  - name: install the indicated software
+    apt:
+            name: '{{ pkg }}'
+            state: latest
+

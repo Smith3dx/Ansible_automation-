@@ -1,0 +1,14 @@
+--- # debug and register statements playbook 
+- hosts: Servers 
+  remote_user: ansible
+  become: yes
+  become_method: sudo
+  connection: ssh 
+  gather_facts: no 
+  tasks: 
+  - name: installing elinks package
+    apt:
+            name: elinks
+            state: latest
+    register: result
+  - debug: var=result  

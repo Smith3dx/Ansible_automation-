@@ -1,0 +1,35 @@
+--- # this is an NTP configuration playbook 
+- hosts: all 
+  remote_user: ansible
+  become: yes 
+  become_method: sudo 
+  connection: ssh
+  gather_facts: yes 
+  tasks: 
+  - name: Install NTP 
+    apt:
+            name: ntp
+            state: latest
+            
+
+  - name: Copy over NTP configuration 
+    template: src=/etc/ntp.conf dest=/etc/ntp.conf
+    notify:
+            -restart ntp
+    
+
+  - name: Make sure NTP is started up 
+    service: name=ntp state=running enabled=yes
+    
+
+  - name: Sync hwclock
+    shell: hwclock -w 
+    
+
+  handlers:
+  - name: restart ntp
+    service: name=ntp state=restarted 
+
+
+      
+
